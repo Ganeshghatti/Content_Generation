@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +29,7 @@ SECRET_KEY = 'django-insecure-6__847j)3%(xsbpwzr1p%f^i)&yv2_98n)u)_&2kr!y9tpyxdz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['147.79.71.151', 'api.generate-content.thesquirrel.site']
+ALLOWED_HOSTS = ['147.79.71.151', 'api.generate-content.thesquirrel.site', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -39,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'content_generation',
     'corsheaders',
+    'rest_framework',
+    'twitter_management',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +133,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Allow all origins (for development purposes, adjust for production)
 CORS_ALLOW_ALL_ORIGINS = True
+
+GROQ_API_KEY = os.getenv('GROQ_API_KEY')
