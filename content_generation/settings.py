@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-6__847j)3%(xsbpwzr1p%f^i)&yv2_98n)u)_&2kr!y9tpyxdz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['147.79.71.151', 'api.generate-content.thesquirrel.site']
 
 
 # Application definition
