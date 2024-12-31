@@ -55,4 +55,4 @@ def generate_tweets(keyword):
     print(result2)
     return result2
 
-generate_tweets("AI")
+generate_tweets("Search Engine Optimization")
