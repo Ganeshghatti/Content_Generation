@@ -1,8 +1,8 @@
 import os
 from dotenv import load_dotenv
 from crewai import Crew, Process
-from .agents import create_trend_finder_agent, create_content_writer_agent
-from .tasks import trend_task,content_task
+from agents import trend_finder, content_writer, creative_writer
+from tasks import trend_task,content_task,creative_task
 import random
 # Load environment variables
 load_dotenv()
@@ -17,12 +17,8 @@ load_dotenv()
 #     share_crew=True,
 # )
 
-def generate_tweets(description, keywords, prompt):
-    # Create agents with the prompt
-    trend_finder = create_trend_finder_agent(prompt)
-    content_writer = create_content_writer_agent(prompt)
-    
-    # Create crews with the new agents
+def generate_tweets(keywords):
+    keyword = random.choice(keywords)
     crew1 = Crew(
         agents=[trend_finder],
         tasks=[trend_task],
@@ -44,14 +40,39 @@ def generate_tweets(description, keywords, prompt):
     )
     
     result2 = []
-    print(keywords)
-    print(description)
-    selected_keyword = random.choice(keywords)
-    result = crew1.kickoff(inputs={"niche": selected_keyword})
+    # print(keyword)
+    result = crew1.kickoff(inputs={"niche":keyword})
     result_raw = result.raw
     topics = result_raw.strip().split("\n")
-    cleaned_topics = [topic.split(", ", 1)[1] if ", " in topic else topic for topic in topics]
+    cleaned_topics = [topic.split(", ", 1)[1] if "," in topic else topic for topic in topics]
     
-    result2 = crew2.kickoff(inputs={"topic": cleaned_topics[0], "prompt": prompt})
-    print(result2)
+    result2 = crew2.kickoff(inputs={"topic": cleaned_topics[0]})
+    # print(result2)
     return result2
+
+def write_content(content):
+    crew3 = Crew(
+        agents=[creative_writer],
+        tasks=[creative_task],
+        process=Process.sequential,
+        memory=True,
+        cache=False,
+        max_rpm=100,
+        share_crew=True
+    )
+    result3=crew3.kickoff(inputs={"content":content})
+    print(result3)
+    return result3
+    
+def user_input(keywords,prompt):
+    if prompt=="":
+        print("No prompt provided, creating content based on keywords")
+        return(generate_tweets(keywords=keywords))
+    else:
+        print("Prompt provided, creating content based on prompt")
+        return(write_content(content=prompt))
+
+# generate_tweets(["DL","ML","Data Science"])
+# write_content("SEO under 200 words")
+
+# print(user_input(["AI","DL"],'SEO under 200 words'))
