@@ -14,18 +14,16 @@ class CreatePostView(APIView):
     def post(self, request):
         keywords = request.data.get('keywords')
         description = request.data.get('description')
-        print(description)
-        print(type(description))
-        print(keywords)
-        print(type(keywords))
-        if not keywords:
+        prompt = request.data.get('prompt')
+        print(keywords, description, prompt)
+        if not keywords or not description:
             return Response(
-                {'error': 'Keyword is required'}, 
+                {'error': 'Keyword and description are required'}, 
                 status=status.HTTP_400_BAD_REQUEST
             )
-
+        
         try:
-            tweets = generate_tweets(keyword)
+            tweets = generate_tweets(description,keywords, prompt)
             
             return Response({
                 'status': 'success',
