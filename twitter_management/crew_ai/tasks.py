@@ -28,7 +28,7 @@ content_task=Task(
 
 creative_task=Task(
     agent=creative_writer,
-    description=("Write an exciting and well informed piece of content based on the following instruction {content}"),
+    description=("Write an exciting and well informed piece of content based on the following instruction {prompt}"),
     expected_output="A detailed piece of creative content comprising all the information based on the requirements",
     # tools=[search_tool],
     # output_file='content.md'
