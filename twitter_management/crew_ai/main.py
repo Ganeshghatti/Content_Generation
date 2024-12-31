@@ -1,21 +1,11 @@
 import os
 from dotenv import load_dotenv
 from crewai import Crew, Process
-from .agents import trend_finder, content_writer, creative_writer
-from .tasks import trend_task,content_task,creative_task
+from agents import trend_finder, content_writer, creative_writer
+from tasks import trend_task,content_task,creative_task
 import random
 # Load environment variables
 load_dotenv()
-
-# crew = Crew(
-#     agents=[researcher],
-#     tasks=[trend_task],
-#     process=Process.sequential,
-#     memory=True,
-#     cache=False,
-#     max_rpm=100,
-#     share_crew=True,
-# )
 
 def generate_tweets(keywords):
     keyword = random.choice(keywords)
@@ -40,14 +30,14 @@ def generate_tweets(keywords):
     )
     
     result2 = []
-    # print(keyword)
+    print(keyword)
     result = crew1.kickoff(inputs={"niche":keyword})
     result_raw = result.raw
     topics = result_raw.strip().split("\n")
     cleaned_topics = [topic.split(", ", 1)[1] if "," in topic else topic for topic in topics]
     
     result2 = crew2.kickoff(inputs={"topic": cleaned_topics[0]})
-    # print(result2)
+    # print(result2,"\n")
     return result2
 
 def write_content(prompt):
@@ -61,18 +51,21 @@ def write_content(prompt):
         share_crew=True
     )
     result3=crew3.kickoff(inputs={"prompt":prompt})
-    print(result3)
+    print(result3,"\n")
     return result3
     
-def user_input(description,keywords, prompt):
-    if prompt==None:
-        print("No prompt provided, creating content based on keywords")
-        return(generate_tweets(keywords=keywords))
+def user_input(description,keywords, prompt,prem_token):
+    if prem_token:
+        if prompt==None:
+            print("No prompt provided, creating content based on keywords")
+            return(generate_tweets(keywords=keywords))
+        else:
+            print("Prompt provided, creating content based on prompt")
+            return(write_content(prompt=prompt))
     else:
-        print("Prompt provided, creating content based on prompt")
-        return(write_content(prompt=prompt))
+        print("No premium token provided, cannot create content")
 
 # generate_tweets(["DL","ML","Data Science"])
 # write_content("SEO under 200 words")
 
-# print(user_input(["AI","DL"],''))
+print(user_input("desc",["AI","DL","SEO","Banana"],None,True))
