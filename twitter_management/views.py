@@ -12,9 +12,13 @@ class TestView(APIView):
 
 class CreatePostView(APIView):
     def post(self, request):
-        keyword = request.data.get('keyword')
-        print(keyword)
-        if not keyword:
+        keywords = request.data.get('keywords')
+        description = request.data.get('description')
+        print(description)
+        print(type(description))
+        print(keywords)
+        print(type(keywords))
+        if not keywords:
             return Response(
                 {'error': 'Keyword is required'}, 
                 status=status.HTTP_400_BAD_REQUEST
