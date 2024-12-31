@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .crew_ai.main import generate_tweets
+from .crew_ai.main import user_input
 
 # Create your views here.
 
@@ -23,7 +23,7 @@ class CreatePostView(APIView):
             )
         
         try:
-            tweets = generate_tweets(description,keywords, prompt)
+            tweets = user_input(description,keywords, prompt)
             
             return Response({
                 'status': 'success',

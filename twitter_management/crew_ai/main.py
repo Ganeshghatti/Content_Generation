@@ -75,4 +75,4 @@ def user_input(keywords,prompt):
 # generate_tweets(["DL","ML","Data Science"])
 # write_content("SEO under 200 words")
 
-print(user_input(["AI","DL"],''))
+# print(user_input(["AI","DL"],''))
