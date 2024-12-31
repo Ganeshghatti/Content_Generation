@@ -1,8 +1,8 @@
 import os
 from dotenv import load_dotenv
 from crewai import Crew, Process
-from agents import trend_finder, content_writer, creative_writer
-from tasks import trend_task,content_task,creative_task
+from .agents import trend_finder, content_writer, creative_writer
+from .tasks import trend_task,content_task,creative_task
 import random
 # Load environment variables
 load_dotenv()
@@ -50,7 +50,7 @@ def generate_tweets(keywords):
     # print(result2)
     return result2
 
-def write_content(content):
+def write_content(prompt):
     crew3 = Crew(
         agents=[creative_writer],
         tasks=[creative_task],
@@ -60,7 +60,7 @@ def write_content(content):
         max_rpm=100,
         share_crew=True
     )
-    result3=crew3.kickoff(inputs={"content":content})
+    result3=crew3.kickoff(inputs={"prompt":prompt})
     print(result3)
     return result3
     
@@ -70,9 +70,9 @@ def user_input(keywords,prompt):
         return(generate_tweets(keywords=keywords))
     else:
         print("Prompt provided, creating content based on prompt")
-        return(write_content(content=prompt))
+        return(write_content(prompt=prompt))
 
 # generate_tweets(["DL","ML","Data Science"])
 # write_content("SEO under 200 words")
 
-# print(user_input(["AI","DL"],'SEO under 200 words'))
+print(user_input(["AI","DL"],''))

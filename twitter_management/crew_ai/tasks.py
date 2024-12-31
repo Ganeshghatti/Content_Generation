@@ -1,6 +1,6 @@
 from crewai import Task
-from tools import search_tool
-from agents import trend_finder, content_writer, creative_writer
+from .tools import search_tool
+from .agents import trend_finder, content_writer, creative_writer
 
 # Trend finder task
 # trend_task = Task(

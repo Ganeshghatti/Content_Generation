@@ -1,5 +1,5 @@
 from crewai import Agent, LLM
-from tools import search_tool
+from .tools import search_tool
 from dotenv import load_dotenv
 import os
 
@@ -41,9 +41,9 @@ content_writer=Agent(
     )
 
 creative_writer=Agent(
-        role="Write Compelling Content based on the following instruction {content}",
+        role="Write Compelling Content based on the following instruction {prompt}",
         goal="""Conduct in-depth research on the topic and write an article of detailed information on the 
-                following: {content}""",
+                following: {prompt}""",
         description="This agent uses topics to write an attractive post for content",
         verbose=True,
         memory=True,
