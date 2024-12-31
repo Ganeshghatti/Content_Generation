@@ -22,23 +22,23 @@ trend_finder=Agent(
         allow_delegation=True,
         max_retry_limit=2,
         llm=llm
-    )
+)
 
 content_writer=Agent(
-        role="Write Compelling Content for {topic}",
+        role="Write Compelling Content for {topic} in no less than 500 words",
         goal="""Conduct in-depth research on the topic and compile detailed information 
-                following this prompt: {topic}""",
+                following this topic: {topic}, and write a post in about 500 words""",
         description="This agent uses topics to write an attractive post for content",
         verbose=True,
         memory=True,
         backstory=(
-            """As a Content Researcher specializing in {topic}, you create engaging
-               and informed social media posts."""
+            """As a Content Researcher specializing in {topic}, you create detailed
+               and long form social media posts."""
         ),
         allow_delegation=True,
         max_retry_limit=2,
         llm=llm
-    )
+)
 
 creative_writer=Agent(
         role="Write Compelling Content based on the following instruction {prompt}",
@@ -54,5 +54,21 @@ creative_writer=Agent(
         allow_delegation=True,
         max_retry_limit=2,
         llm=llm
-    )
+)
+
+basic_content_writer=Agent(
+        role="Write Compelling Content for {topic} under 200 words",
+        goal="""Conduct in-depth research on the topic and compile detailed information 
+                following this topic: {topic} under 200 words""",
+        description="This agent uses topics to write an attractive post for content",
+        verbose=True,
+        memory=True,
+        backstory=(
+            """As a Content Researcher specializing in {topic}, you create engaging
+               and short form social media posts."""
+        ),
+        allow_delegation=True,
+        max_retry_limit=2,
+        llm=llm
+)
 
