@@ -64,8 +64,8 @@ def write_content(prompt):
     print(result3)
     return result3
     
-def user_input(keywords,prompt):
-    if prompt=="":
+def user_input(description,keywords, prompt):
+    if prompt==None:
         print("No prompt provided, creating content based on keywords")
         return(generate_tweets(keywords=keywords))
     else:
