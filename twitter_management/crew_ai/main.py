@@ -101,8 +101,6 @@ def basic_content(prompt):
     print(result3,"\n")
     return result3
 
-
-
 def premium_user(description,keywords, prompt,prem_token):
     if prem_token:
         if prompt==None:
@@ -113,7 +111,6 @@ def premium_user(description,keywords, prompt,prem_token):
             return(premium_content(prompt=prompt))
     else:
         return basic_user(description,keywords,prompt)
-
 
 def basic_user(description,keywords, prompt):
     if prompt==None:
@@ -126,4 +123,4 @@ def basic_user(description,keywords, prompt):
 # generate_tweets(["DL","ML","Data Science"])
 # write_content("SEO under 200 words")
 
-print(premium_user("desc",["AI","DL","SEO","Banana"],"Banana Recipe",False))
+# print(premium_user("desc",["AI","DL","SEO","Banana"],"Banana Recipe",False))
