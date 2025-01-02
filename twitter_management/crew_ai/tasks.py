@@ -1,6 +1,6 @@
 from crewai import Task
 from tools import search_tool
-from agents import trend_finder, content_writer, creative_writer, basic_content_writer
+from agents import trend_finder, premium_content_writer, premium_creative_writer, basic_content_writer, basic_creative_writer
 
 trend_task=Task(
     agent=trend_finder,
@@ -10,16 +10,22 @@ trend_task=Task(
 )
 
 # Content writer task
-content_task=Task(
-    agent=content_writer,
+premium_content_task=Task(
+    agent=premium_content_writer,
     description=("Write an educating and exciting article on the topic of {topic}"),
     expected_output="A comprehensive paragraph in about 500 words detailing the information about the topic of {topic}",
 )
 
-creative_task=Task(
-    agent=creative_writer,
+premium_creative_task=Task(
+    agent=premium_creative_writer,
     description=("Write an exciting and well informed piece of content based on the following instruction {prompt}"),
     expected_output="A detailed piece of creative content comprising all the information based on the requirements",
+)
+
+basic_creative_task=Task(
+    agent=basic_creative_writer,
+    description=("Write an exciting and well informed piece of content strictly under 200 words, based on the following instruction {prompt}"),
+    expected_output="A detailed piece of creative content comprising all the information based on the requirements under 200 words",
 )
 
 basic_content_task=Task(

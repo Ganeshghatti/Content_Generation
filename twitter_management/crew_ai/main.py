@@ -1,13 +1,13 @@
 import os
 from dotenv import load_dotenv
 from crewai import Crew, Process
-from agents import trend_finder, content_writer, creative_writer, basic_content_writer
-from tasks import trend_task,content_task,creative_task,basic_content_task
+from agents import trend_finder, premium_content_writer, basic_creative_writer, basic_content_writer, premium_creative_writer
+from tasks import trend_task,premium_content_task,basic_creative_task,basic_content_task, premium_creative_task
 import random
 # Load environment variables
 load_dotenv()
 
-def generate_tweets(keywords):
+def premium_generation(keywords):
     keyword = random.choice(keywords)
     crew1 = Crew(
         agents=[trend_finder],
@@ -20,8 +20,8 @@ def generate_tweets(keywords):
     )
     
     crew2 = Crew(
-        agents=[content_writer],
-        tasks=[content_task],
+        agents=[premium_content_writer],
+        tasks=[premium_content_task],
         process=Process.sequential,
         memory=True,
         cache=False,
@@ -40,10 +40,10 @@ def generate_tweets(keywords):
     # print(result2,"\n")
     return result2
 
-def write_content(prompt):
+def premium_content(prompt):
     crew3 = Crew(
-        agents=[creative_writer],
-        tasks=[creative_task],
+        agents=[premium_creative_writer],
+        tasks=[premium_creative_task],
         process=Process.sequential,
         memory=True,
         cache=False,
@@ -87,25 +87,43 @@ def basic_generation(keywords):
     # print(result2,"\n")
     return result2
 
+def basic_content(prompt):
+    crew3 = Crew(
+        agents=[basic_creative_writer],
+        tasks=[basic_creative_task],
+        process=Process.sequential,
+        memory=True,
+        cache=False,
+        max_rpm=100,
+        share_crew=True
+    )
+    result3=crew3.kickoff(inputs={"prompt":prompt})
+    print(result3,"\n")
+    return result3
 
-def user_input(description,keywords, prompt,prem_token):
+
+
+def premium_user(description,keywords, prompt,prem_token):
     if prem_token:
         if prompt==None:
             print("No prompt provided, creating content based on keywords")
-            return(generate_tweets(keywords=keywords))
+            return(premium_generation(keywords=keywords))
         else:
             print("Prompt provided, creating content based on prompt")
-            return(write_content(prompt=prompt))
+            return(premium_content(prompt=prompt))
     else:
-        # print("No premium token provided, cannot create content")
-        if prompt==None:
-            print("No prompt provided, creating content based on keywords")
-            return(basic_generation(keywords=keywords))
-        else:
-            print("Prompt provided, creating content based on prompt")
-            return(write_content(prompt=prompt))
+        return basic_user(description,keywords,prompt)
+
+
+def basic_user(description,keywords, prompt):
+    if prompt==None:
+        print("No prompt provided, creating content based on keywords")
+        return(basic_generation(keywords=keywords))
+    else:
+        print("Prompt provided, creating content based on prompt")
+        return(basic_content(prompt=prompt))
 
 # generate_tweets(["DL","ML","Data Science"])
 # write_content("SEO under 200 words")
 
-# print(user_input("desc",["AI","DL","SEO","Banana"],None,True))
+print(premium_user("desc",["AI","DL","SEO","Banana"],"Banana Recipe",False))
